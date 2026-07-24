@@ -42,11 +42,11 @@
         .sidebar-subtitle { font-size: 0.8rem; color: #cbd5e0; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 20px; }
         .sidebar-menu { list-style: none; flex-grow: 1; overflow-y: auto; }
         .sidebar-menu li {
-            padding: 12px 15px;
-            margin-bottom: 8px;
+            padding: 10px 15px;
+            margin-bottom: 5px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: #e2e8f0;
             transition: all 0.2s ease;
             display: flex;
@@ -68,7 +68,10 @@
         .header { margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-start; }
         .header-title h1 { font-size: 2rem; color: var(--primary); margin-bottom: 5px; }
         .header-title p { font-size: 1rem; color: var(--text-muted); }
+        .header-actions { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
         .header-badge { background: #ebf8ff; border: 1px solid #3182ce; color: #2b6cb0; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .btn-download { background: var(--accent-green); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: 0.2s; }
+        .btn-download:hover { background: #2f855a; transform: translateY(-2px); }
 
         /* Section Blocks */
         .section-block { margin-bottom: 45px; scroll-margin-top: 25px; }
@@ -160,6 +163,17 @@
             .main-content { margin-left: 70px; width: calc(100% - 70px); padding: 20px; }
             .grid-2, .grid-4 { grid-template-columns: 1fr; }
         }
+
+        /* Print CSS for PDF Generation */
+        @media print {
+            body { background: white; color: black; }
+            .sidebar, .chat-widget, .month-selector, .btn-download, .chat-chips { display: none !important; }
+            .main-content { margin-left: 0; width: 100%; padding: 0; }
+            .section-block { page-break-inside: avoid; margin-bottom: 30px; }
+            .card { box-shadow: none; border: 1px solid #ccc; page-break-inside: avoid; }
+            .table-responsive { max-height: none !important; overflow: visible !important; }
+            canvas { max-width: 100% !important; height: auto !important; }
+        }
     </style>
 </head>
 <body>
@@ -171,6 +185,7 @@
         <ul class="sidebar-menu">
             <li class="active" onclick="navigateTo('executive-summary')"><span>📊 Executive Summary</span></li>
             <li onclick="navigateTo('financial-dashboards')"><span>📈 Visual Analytics</span></li>
+            <li onclick="navigateTo('deposits-payroll')"><span>💼 Deposits & Payroll</span></li>
             <li onclick="navigateTo('income-categorization')"><span>💰 Income Stream Analysis</span></li>
             <li onclick="navigateTo('month-deep-dive')"><span>📅 12-Month Deep-Dive</span></li>
             <li onclick="navigateTo('red-flags')"><span>🚨 Audit Red Flags</span></li>
@@ -180,7 +195,7 @@
         </ul>
         <div class="sidebar-footer">
             <p><strong>A/C:</strong> 107018153255 (ADC Bank)</p>
-            <p><strong>Period:</strong> FY 2025-2026</p>
+            <p><strong>Auditor:</strong> SJDS & Co.</p>
         </div>
     </div>
 
@@ -192,39 +207,42 @@
                 <h1>Financial Audit & Interactive Analytics Portal</h1>
                 <p>Comprehensive 12-Month Audit Report & Predictive AI Modeling (FY 2025 - 2026)</p>
             </div>
-            <div class="header-badge">Audited: 22/07/2026</div>
+            <div class="header-actions">
+                <button class="btn-download" onclick="window.print()">📥 Download PDF Report</button>
+                <div class="header-badge">Audited by SJDS & Co: 17/07/2026</div>
+            </div>
         </div>
 
         <!-- 1. Executive Summary -->
         <div id="executive-summary" class="section-block">
             <div class="section-header">
-                <span>1. Executive Summary</span>
+                <span>1. Executive Summary (Audited)</span>
             </div>
             <div class="grid-4" style="margin-bottom: 20px;">
                 <div class="card">
-                    <h3>Opening Balance</h3>
-                    <div class="metric-value">₹4,36,16,416.00</div>
-                    <div class="metric-label">As of 01/04/2025 (ADC Bank)</div>
+                    <h3>Net Profit / Surplus</h3>
+                    <div class="metric-value">₹1,57,35,417.00</div>
+                    <div class="metric-label">As per I&E Account</div>
                 </div>
                 <div class="card">
                     <h3>Closing Balance</h3>
                     <div class="metric-value">₹4,28,63,846.20</div>
-                    <div class="metric-label">As of 31/03/2026</div>
+                    <div class="metric-label">As of 31/03/2026 (ADC Bank)</div>
                 </div>
                 <div class="card">
-                    <h3>Categorized Income</h3>
-                    <div class="metric-value">₹5,38,20,533.00</div>
-                    <div class="metric-label">379 Processed Credits</div>
+                    <h3>Validated Total Income</h3>
+                    <div class="metric-value">₹4,47,57,909.00</div>
+                    <div class="metric-label">Including ₹41.6L FD Interest</div>
                 </div>
                 <div class="card">
                     <h3>Fixed Deposits Created</h3>
                     <div class="metric-value">₹9,00,00,000.00</div>
-                    <div class="metric-label">₹6 Cr (Jul-25) + ₹3 Cr (Sep-25)</div>
+                    <div class="metric-label">Investments / Reserve Capital</div>
                 </div>
             </div>
             <div class="card">
                 <p style="line-height:1.6; font-size:0.95rem;">
-                    This interactive audit portal merges the entire 12-month transaction register for <strong>The Rajyash Regius Co-Op Housing Service Society Ltd.</strong> (Account No: 107018153255, ADC Bank, Shyamal Char Rasta Branch). While the society maintains strong liquidity backed by ₹9.00 Crores in Fixed Deposits, our audit has identified critical financial discrepancies, high-volume unvouchered cash disbursements, massive GST payment spikes, and fragmented utility payments.
+                    This interactive audit portal merges the entire 12-month transaction register for <strong>The Rajyash Regius Co-Op Housing Service Society Ltd.</strong> (Account No: 107018153255, ADC Bank) with the verified numbers from the official SJDS & Co. Audit. While the society maintains strong liquidity backed by ₹9.00 Crores in Fixed Deposits, our audit has identified critical financial discrepancies, high-volume unvouchered cash disbursements, massive GST payment spikes, and fragmented utility payments.
                 </p>
             </div>
         </div>
@@ -240,16 +258,71 @@
                     <canvas id="expenseChart" height="140"></canvas>
                 </div>
                 <div class="card">
-                    <h3>Yearly Operational Expenditure Distribution</h3>
+                    <h3>Audited Operational Expenditure Distribution</h3>
                     <canvas id="expensePieChart" height="140"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Income Stream Analysis -->
+        <!-- 3. Deposits & Payroll -->
+        <div id="deposits-payroll" class="section-block">
+            <div class="section-header">
+                <span>3. Member Deposit Reconciliation & Monthly Payroll Exposure</span>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Schedule 1: Member Deposit Validation</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">By grouping identical deposit amounts listed in the CA's Schedule 1, we macro-verify the exact entries hitting the bank statement.</p>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr><th>Deposit Amount (₹)</th><th>Txn Count</th><th>Total Expected in Bank (₹)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>₹4,60,080.00</td><td>6</td><td>27,60,480.00</td></tr>
+                                <tr><td>₹4,30,560.00</td><td>3</td><td>12,91,680.00</td></tr>
+                                <tr><td>₹3,73,680.00</td><td>4</td><td>14,94,720.00</td></tr>
+                                <tr><td>₹3,31,920.00</td><td>35</td><td>1,16,17,200.00</td></tr>
+                                <tr><td>₹2,76,840.00</td><td>102</td><td>2,82,37,680.00</td></tr>
+                                <tr><td>₹2,76,000.00</td><td>1</td><td>2,76,000.00</td></tr>
+                                <tr style="background:#ebf8ff;"><td><strong>₹2,13,120.00</strong></td><td><strong>145</strong></td><td><strong>3,09,02,400.00</strong></td></tr>
+                                <tr><td>₹1,83,240.00</td><td>7</td><td>12,82,680.00</td></tr>
+                                <tr><td>₹1,78,920.00</td><td>6</td><td>10,73,520.00</td></tr>
+                                <tr><td>₹63,720.00</td><td>1</td><td>63,720.00</td></tr>
+                                <tr style="border-top:2px solid var(--primary-light); font-weight:bold;">
+                                    <td>Total Validated</td><td>310 Entries</td><td>₹7,90,00,080.00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Audited Salary Exposure (Direct Payroll)</h3>
+                    <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:15px;">Direct cash outflow for staff salaries, isolated from third-party vendor contracts (Safal/Globeye).</p>
+                    <div class="table-responsive" style="margin-bottom: 20px;">
+                        <table>
+                            <thead>
+                                <tr><th>Payroll Category</th><th>Annual Amount Paid (₹)</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>General Salaries & Other Payments</td><td>24,88,430.00</td></tr>
+                                <tr><td>Lift Man Salary</td><td>83,100.00</td></tr>
+                                <tr style="font-weight:bold; background:#f0fff4;"><td>Total Annual Payroll</td><td>₹25,71,530.00</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:15px; border-radius:6px; text-align:center; margin-top:20px;">
+                        <h4 style="color:#c53030; margin-bottom:5px;">Average Monthly Salary Burden</h4>
+                        <div style="font-size: 2.2rem; font-weight: bold; color: #e53e3e;">₹2,14,294 / mo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Income Stream Analysis -->
         <div id="income-categorization" class="section-block">
             <div class="section-header">
-                <span>3. AI-Categorized Income Stream</span>
+                <span>4. AI-Categorized Income Stream</span>
             </div>
             <div class="grid-2">
                 <div class="card">
@@ -286,10 +359,10 @@
             </div>
         </div>
 
-        <!-- 4. Month-by-Month Deep Dive -->
+        <!-- 5. Month-by-Month Deep Dive -->
         <div id="month-deep-dive" class="section-block">
             <div class="section-header">
-                <span>4. 12-Month Granular Deep-Dive (April 2025 - March 2026)</span>
+                <span>5. 12-Month Granular Deep-Dive (April 2025 - March 2026)</span>
             </div>
             <div class="month-selector" id="monthSelector">
                 <button class="month-btn active" onclick="showMonth(0)">Apr 25</button>
@@ -310,49 +383,43 @@
             </div>
         </div>
 
-        <!-- 5. Audit Red Flags -->
+        <!-- 6. Audit Red Flags -->
         <div id="red-flags" class="section-block">
             <div class="section-header">
-                <span>5. Audit Red Flags & Suspicious Transactions</span>
+                <span>6. Audit Red Flags, Suspicious Transactions & Outstanding Creditors</span>
             </div>
             <div class="card" style="margin-bottom: 20px;">
                 <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>Date / Period</th>
-                                <th>Issue Type</th>
+                                <th>Issue Type / Vendor</th>
                                 <th>Amount (₹)</th>
                                 <th>Audit Investigation Finding</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>16/09/2025</td>
                                 <td><span class="tag-red">GST Payment Spike</span></td>
                                 <td><b>₹76,20,396.00</b></td>
-                                <td>Massive irregular RTGS tax transfer to ITD. Requires immediate GSTR-3B audit to rule out penalties/builder backlog.</td>
+                                <td>Massive irregular RTGS tax transfer to ITD on 16/09/2025. This does not appear directly on the Audited I&E statement. Requires immediate GSTR-3B audit to rule out builder backlog.</td>
                             </tr>
                             <tr>
-                                <td>Ongoing FY26</td>
                                 <td><span class="tag-red">Unvouchered Cash</span></td>
                                 <td><b>₹10,000 - ₹45,000 (Recurring)</b></td>
-                                <td>Self-cheques issued for cash payments to staff (Arjunsingh, Dhvani Patel, Siyaram, etc.), bypassing payroll controls.</td>
+                                <td>Frequent self-cheques issued for cash payments to staff (Arjunsingh, Dhvani Patel, Siyaram, etc.), bypassing payroll controls.</td>
                             </tr>
                             <tr>
-                                <td>Jan - Feb 2026</td>
-                                <td><span class="tag-red">Vendor Cost Surge</span></td>
-                                <td><b>₹9,87,319.00</b></td>
-                                <td>Security vendor transition from 'Shield Security' (~₹6.1L/mo) to 'Globeye Security' caused an unexplained ~60% spike.</td>
+                                <td><span class="tag-red">Owed Creditor: Globeye</span></td>
+                                <td><b>₹7,41,932.96</b></td>
+                                <td>Security vendor transition from 'Shield Security' (~₹6.1L/mo) to 'Globeye Security' caused an unexplained ~60% spike. Schedule 2 of Audit confirms Globeye is still owed ₹7.41L.</td>
                             </tr>
                             <tr>
-                                <td>Aug 2025 / Jan 2026</td>
                                 <td><span class="tag-red">Fragmented Utility Bills</span></td>
                                 <td><b>₹13,38,246.00 (x2)</b></td>
                                 <td>UGVCL electricity bills paid either in duplicate massive spikes or broken into dozens of small daily NEFT transfers.</td>
                             </tr>
                             <tr>
-                                <td>25/02/2026</td>
                                 <td><span class="tag-red">Unexplained Trade Payment</span></td>
                                 <td><b>₹6,00,000.00</b></td>
                                 <td>Direct payment to 'Rakesh Trading Co' without accompanying invoice or service description.</td>
@@ -363,10 +430,10 @@
             </div>
         </div>
 
-        <!-- 6. AI Future Predictions -->
+        <!-- 7. AI Future Predictions -->
         <div id="future-predictions" class="section-block">
             <div class="section-header">
-                <span>6. AI-Driven Future Budgeting & Occupancy Cost Model</span>
+                <span>7. AI-Driven Future Budgeting & Occupancy Cost Model</span>
             </div>
             <div class="grid-2">
                 <div class="card">
@@ -393,10 +460,10 @@
             </div>
         </div>
 
-        <!-- 7. Solar Savings Calculator -->
+        <!-- 8. Solar Savings Calculator -->
         <div id="solar-savings" class="section-block">
             <div class="section-header">
-                <span>7. Strategic Recommendation: Rooftop Solar PV ROI Calculator</span>
+                <span>8. Strategic Recommendation: Rooftop Solar PV ROI Calculator</span>
             </div>
             <div class="card">
                 <p style="line-height:1.5; font-size:0.95rem; margin-bottom:15px;">
@@ -427,10 +494,10 @@
             </div>
         </div>
 
-        <!-- 8. Full Searchable Ledger -->
+        <!-- 9. Full Searchable Ledger -->
         <div id="ledger-search" class="section-block">
             <div class="section-header">
-                <span>8. Full Searchable Bank Transaction Ledger</span>
+                <span>9. Full Searchable Bank Transaction Ledger</span>
             </div>
             <div class="card">
                 <div style="display:flex; gap:15px; margin-bottom:15px; flex-wrap:wrap;">
@@ -470,12 +537,12 @@
         </div>
         <div class="chat-body" id="chatBody">
             <div class="msg bot">
-                Hello! I am your AI Audit Assistant. I have indexed all 4 PDF bank statements for <strong>Rajyash Regius</strong>. Ask me anything!
+                Hello! I am your AI Audit Assistant. I have indexed all 4 PDF bank statements and the Audited statements for <strong>Rajyash Regius</strong>. Ask me anything!
             </div>
             <div class="chat-chips">
+                <div class="chip" onclick="quickAsk('Salaries')">Salaries</div>
+                <div class="chip" onclick="quickAsk('Deposits')">Deposits</div>
                 <div class="chip" onclick="quickAsk('GST Spikes')">GST Spikes</div>
-                <div class="chip" onclick="quickAsk('Cash Withdrawals')">Cash Withdrawals</div>
-                <div class="chip" onclick="quickAsk('Security Costs')">Security Surge</div>
                 <div class="chip" onclick="quickAsk('UGVCL Power')">Electricity Bills</div>
             </div>
         </div>
@@ -588,14 +655,15 @@
             options: { responsive: true, scales: { y: { beginAtZero: true } } }
         });
 
+        // AUDITED EXPENSE PIE CHART
         const ctxPieExp = document.getElementById('expensePieChart').getContext('2d');
         new Chart(ctxPieExp, {
             type: 'pie',
             data: {
-                labels: ['Housekeeping', 'Security', 'Electricity', 'Statutory/GST', 'AMC/Lifts', 'Cash/Misc'],
+                labels: ['Housekeeping', 'Security', 'Electricity', 'Repairs & Maint', 'Salaries'],
                 datasets: [{
-                    data: [30, 25, 18, 15, 7, 5],
-                    backgroundColor: ['#2b6cb0', '#4299e1', '#ed8936', '#e53e3e', '#48bb78', '#a0aec0']
+                    data: [7989096, 7841789, 6783286, 3335494, 2571530],
+                    backgroundColor: ['#2b6cb0', '#e53e3e', '#ed8936', '#48bb78', '#805ad5']
                 }]
             },
             options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
@@ -712,11 +780,17 @@
         }
 
         function getBotResponse(query) {
-            if (query.includes("gst") || query.includes("tax")) {
-                return "Major GST transfers logged in the 4 PDF statements:<br>1. <b>Sep 16, 2025:</b> ₹76,20,396 (Flagged: Extremely High)<br>2. <b>Dec 10, 2025:</b> ₹10,56,631<br>3. <b>Feb 18, 2026:</b> ₹6,19,793.<br>The committee must show GSTR-3B filings to verify why September spiked.";
+            if (query.includes("salary") || query.includes("salaries")) {
+                return "The audited report shows 'Salaries & Other Payments' at ₹24,88,430 and a specific 'Lift Man Salary' of ₹83,100, totaling ₹25.71 Lakhs annually (~₹2.14L/month).";
+            } else if (query.includes("deposit") || query.includes("deposits")) {
+                return "Schedule 1 confirms 310 grouped member deposits totaling exactly ₹7,90,00,080.00. The largest group is 145 entries of ₹2,13,120.00 each.";
+            } else if (query.includes("creditor") || query.includes("owed") || query.includes("globeye")) {
+                return "Schedule 2 indicates Globeye Security is still owed ₹7,41,932.96. Total sundry creditors amount to ₹9.19 Lakhs.";
+            } else if (query.includes("gst") || query.includes("tax")) {
+                return "Major GST transfers logged in the 4 PDF statements include a September ₹76.2L payment, which does not directly hit the I&E statement. There is a pending 'Duties & Taxes' liability of ₹9.5L.";
             } else if (query.includes("cash") || query.includes("withdraw")) {
                 return "High-volume self-cheque cash withdrawals were logged for staff/individuals:<br>• <b>Arjunsingh Kundansing:</b> ₹45,000 (monthly)<br>• <b>Dhvani Patel:</b> ₹24,000 (monthly)<br>• <b>Siyaram:</b> ₹15,000 (monthly)<br>This circumvents proper accounting vouchers.";
-            } else if (query.includes("security") || query.includes("guard") || query.includes("globeye")) {
+            } else if (query.includes("security") || query.includes("guard")) {
                 return "Security expenses averaged ~₹6.0L to ₹6.9L under <i>Shield Security</i>. In Jan/Feb 2026, switching to <i>Globeye Security</i> caused a cost surge to <b>₹9,87,319</b>.";
             } else if (query.includes("electricity") || query.includes("ugvcl") || query.includes("power")) {
                 return "Electricity bills show massive August spikes (₹13,38,246 x 2) and heavily fragmented daily NEFT transfers in Oct/Jan ranging from ₹1,000 to ₹45,000.";
@@ -725,7 +799,7 @@
             } else if (query.includes("solar") || query.includes("save")) {
                 return "Installing a 150kW Rooftop Solar PV system (costing ~₹67.5L from ₹9 Cr FDs) will save ~₹6.15L/month on UGVCL bills, yielding an ROI in ~11 months!";
             } else {
-                return "I searched all 4 PDF bank statements. Try asking about <b>'GST'</b>, <b>'Cash Withdrawals'</b>, <b>'Security Surge'</b>, <b>'Electricity'</b>, or <b>'Solar'</b>.";
+                return "I searched all 4 PDF bank statements and the Audit Report. Try asking about <b>'Salaries'</b>, <b>'Deposits'</b>, <b>'GST'</b>, <b>'Cash Withdrawals'</b>, or <b>'Electricity'</b>.";
             }
         }
     </script>
