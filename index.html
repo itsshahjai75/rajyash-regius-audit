@@ -153,12 +153,13 @@
             <li onclick="navigateTo('income-categorization')"><span>💰 Income Stream Analysis</span></li>
             <li onclick="navigateTo('month-deep-dive')"><span>📅 12-Month Deep-Dive</span></li>
             <li onclick="navigateTo('red-flags')"><span>🚨 Audit Red Flags</span></li>
+            <li onclick="navigateTo('future-predictions')"><span>🔮 Future Budgeting</span></li>
             <li onclick="navigateTo('solar-savings')"><span>☀️ Solar ROI Calculator</span></li>
             <li onclick="navigateTo('ledger-search')"><span>🔍 Searchable Ledger</span></li>
         </ul>
         <div class="sidebar-footer">
             <p><strong>A/C:</strong> 107018153255 (ADC Bank)</p>
-            <p><strong>Ref:</strong> Statutory Audit & Bank Statements</p>
+            <p><strong>Ref:</strong> Official Statutory Audit</p>
             <p style="margin-top: 8px; color: var(--accent); font-weight: bold; font-size: 0.8rem;">Powered by Goyamlabdhi Fintech</p>
         </div>
     </div>
@@ -459,10 +460,41 @@
             </div>
         </div>
 
-        <!-- 9. Solar Savings Calculator -->
+        <!-- 9. AI Future Predictions & Occupancy Growth Model -->
+        <div id="future-predictions" class="section-block">
+            <div class="section-header">
+                <span>9. AI-Driven Future Budgeting & Resident Growth Model</span>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>6-Month Projected Monthly Operational Budget</h3>
+                    <canvas id="projectionChart" height="130"></canvas>
+                </div>
+                <div class="card">
+                    <h3>30% Resident Growth Impact (350 vs 450 Flats)</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">
+                        Fixed costs (~75%) stay steady while Variable costs (~25%) rise by ~30% with full population.
+                    </p>
+                    <div style="background:#ebf8ff; border-left:4px solid #3182ce; padding:10px; margin-bottom:10px; border-radius:6px;">
+                        <div style="font-size:0.8rem; color:#2b6cb0; font-weight:600;">Current (350 Occupied Flats @ ₹32L/mo Total Spend)</div>
+                        <div style="font-size:1.2rem; font-weight:bold; color:#1a365d;">₹9,143 / flat / month</div>
+                    </div>
+                    <div style="background:#f0fff4; border-left:4px solid #38a169; padding:10px; margin-bottom:10px; border-radius:6px;">
+                        <div style="font-size:0.8rem; color:#276749; font-weight:600;">Full Occupancy (450 Flats @ ₹35.5L/mo Total Spend)</div>
+                        <div style="font-size:1.2rem; font-weight:bold; color:#1c4532;">₹7,889 / flat / month <span style="font-size:0.85rem; color:#38a169;">(▼ 13.7% Savings)</span></div>
+                    </div>
+                    <div style="background:#fefcbf; border-left:4px solid #d69e2e; padding:10px; border-radius:6px;">
+                        <div style="font-size:0.8rem; color:#975a16; font-weight:600;">450 Flats + 450 kWp Solar PV Plant Active</div>
+                        <div style="font-size:1.2rem; font-weight:bold; color:#744210;">₹7,078 / flat / month <span style="font-size:0.85rem; color:#b7791f;">(▼ 22.6% Savings)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Solar Savings Calculator -->
         <div id="solar-savings" class="section-block">
             <div class="section-header">
-                <span>9. Strategic Recommendation: Rooftop Solar PV ROI Calculator</span>
+                <span>10. Strategic Recommendation: Rooftop Solar PV ROI Calculator</span>
             </div>
             <div class="card">
                 <p style="line-height:1.5; font-size:0.95rem; margin-bottom:15px;">
@@ -510,10 +542,10 @@
             </div>
         </div>
 
-        <!-- 10. Searchable Ledger -->
+        <!-- 11. Searchable Ledger -->
         <div id="ledger-search" class="section-block">
             <div class="section-header">
-                <span>10. Full Bank Transaction Ledger</span>
+                <span>11. Full Bank Transaction Ledger</span>
             </div>
             <div class="card">
                 
@@ -726,6 +758,24 @@
             options: { responsive: true, animation: false, plugins: { legend: { position: 'bottom' } }, cutout: '55%' }
         });
 
+        const ctxProj = document.getElementById('projectionChart').getContext('2d');
+        new Chart(ctxProj, {
+            type: 'line',
+            data: {
+                labels: ['Apr-26', 'May-26', 'Jun-26', 'Jul-26', 'Aug-26', 'Sep-26'],
+                datasets: [{
+                    label: 'Predicted Budget (Lakhs)',
+                    data: [26.2, 28.5, 30.1, 27.5, 26.8, 26.5],
+                    borderColor: '#38a169',
+                    backgroundColor: 'rgba(56, 161, 105, 0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5
+                }]
+            },
+            options: { responsive: true, animation: false, scales: { y: { beginAtZero: false } } }
+        });
+
         // 6. Ledger Table Data & Live Search
         const sampleLedger = [
             { date: "17/05/2025", desc: "SCHINDLER INDIA PVT LTD", type: "DEBIT", amount: "30,15,671.00", cat: "Lift AMC / Capital" },
@@ -824,7 +874,7 @@
             });
         }
 
-        // 8. Gemini Chatbot Assistant Logic
+        // 8. Goyamlabdhi AI Chatbot Assistant Logic
         function handleKeyPress(e) { if (e.key === 'Enter') sendMessage(); }
         function quickAsk(topic) {
             document.getElementById('userInput').value = topic;
