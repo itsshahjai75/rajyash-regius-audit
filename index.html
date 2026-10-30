@@ -38,7 +38,7 @@
         .sidebar-subtitle { font-size: 0.8rem; color: #cbd5e0; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; margin-bottom: 20px; }
         .sidebar-menu { list-style: none; flex-grow: 1; overflow-y: auto; }
         .sidebar-menu li {
-            padding: 10px 15px; margin-bottom: 5px; border-radius: 8px; cursor: pointer;
+            padding: 9px 15px; margin-bottom: 4px; border-radius: 8px; cursor: pointer;
             font-size: 0.85rem; color: #e2e8f0; transition: all 0.2s ease; display: flex; align-items: center; gap: 10px;
         }
         .sidebar-menu li:hover, .sidebar-menu li.active { background-color: var(--primary-light); color: #ffffff; font-weight: 600; transform: translateX(4px); }
@@ -147,7 +147,7 @@
         <ul class="sidebar-menu">
             <li class="active" onclick="navigateTo('executive-summary')"><span>📊 Executive Summary</span></li>
             <li onclick="navigateTo('financial-dashboards')"><span>📈 Visual Analytics</span></li>
-            <li onclick="navigateTo('builder-liability')"><span>⚖️ Builder Liability & 29Cr Fund</span></li>
+            <li onclick="navigateTo('builder-liability')"><span>⚖️ Builder Liability & 29Cr</span></li>
             <li onclick="navigateTo('ugvcl-electricity')"><span>⚡ UGVCL Electricity Analysis</span></li>
             <li onclick="navigateTo('deposits-payroll')"><span>💼 Deposits & Payroll</span></li>
             <li onclick="navigateTo('income-categorization')"><span>💰 Income Stream Analysis</span></li>
@@ -155,6 +155,7 @@
             <li onclick="navigateTo('red-flags')"><span>🚨 Audit Red Flags</span></li>
             <li onclick="navigateTo('future-predictions')"><span>🔮 Future Budgeting</span></li>
             <li onclick="navigateTo('solar-savings')"><span>☀️ Solar ROI Calculator</span></li>
+            <li onclick="navigateTo('expense-inflation')"><span>📉 18-Month Expense Trend</span></li>
             <li onclick="navigateTo('ledger-search')"><span>🔍 Searchable Ledger</span></li>
         </ul>
         <div class="sidebar-footer">
@@ -250,7 +251,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <h3>Builder (Rajyash Procon LLP) Liability Summary</h3>
+                    <h3>Builder Liability Summary</h3>
                     <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Legally enforceable dues from the promoter for 30% pending unsold units.</p>
                     <div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:15px; border-radius:6px; margin-bottom:12px;">
                         <div style="font-size:0.85rem; color:#c53030; font-weight:600;">Direct Running Maintenance Demand (Unsold)</div>
@@ -542,10 +543,125 @@
             </div>
         </div>
 
-        <!-- 11. Searchable Ledger -->
+        <!-- 11. 18-Month Expense Trend & Occupancy Financial Model -->
+        <div id="expense-inflation" class="section-block">
+            <div class="section-header">
+                <span>11. 18-Month Expense Trend & Occupancy Financial Model</span>
+            </div>
+            
+            <div class="card" style="margin-bottom: 20px;">
+                <p style="line-height:1.6; font-size:0.95rem; margin-bottom:15px;">
+                    This section analyzes the actual monthly expenditures from <strong>April 2025 to September 2026</strong>. It separates fixed operational costs from one-time capital investments (CAPEX) and accidental/variable repair costs. Furthermore, it projects future society finances under different flat occupancy growth scenarios, answering the critical question: <em>At the current maintenance collection rate, are we running a surplus or falling into debt?</em>
+                </p>
+                <div class="grid-2">
+                    <div>
+                        <h3 style="margin-bottom:10px;">Monthly Expenditure Volatility (Lakhs)</h3>
+                        <canvas id="expense18MonthChart" height="200"></canvas>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom:10px;">Month-on-Month Variance</h3>
+                        <div class="table-responsive" id="expenseTableContainer" style="max-height: 250px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Total Expense (Lakhs)</th>
+                                        <th>MoM Change (%)</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>Apr-25</td><td>₹46.57 L</td><td>-</td></tr>
+                                    <tr><td>May-25</td><td>₹30.35 L</td><td><span class="tag-green">▼ -34.8%</span></td></tr>
+                                    <tr><td>Jun-25</td><td>₹31.31 L</td><td><span class="tag-red">▲ +3.1%</span></td></tr>
+                                    <tr><td>Jul-25</td><td>₹25.80 L</td><td><span class="tag-green">▼ -17.6%</span></td></tr>
+                                    <tr><td>Aug-25</td><td>₹34.84 L</td><td><span class="tag-red">▲ +35.0%</span></td></tr>
+                                    <tr><td>Sep-25</td><td>₹26.65 L</td><td><span class="tag-green">▼ -23.5%</span></td></tr>
+                                    <tr><td>Oct-25</td><td>₹25.94 L</td><td><span class="tag-green">▼ -2.7%</span></td></tr>
+                                    <tr><td>Nov-25</td><td>₹20.98 L</td><td><span class="tag-green">▼ -19.1%</span></td></tr>
+                                    <tr><td>Dec-25</td><td>₹36.60 L</td><td><span class="tag-red">▲ +74.4%</span></td></tr>
+                                    <tr><td>Jan-26</td><td>₹26.35 L</td><td><span class="tag-green">▼ -28.0%</span></td></tr>
+                                    <tr><td>Feb-26</td><td>₹35.81 L</td><td><span class="tag-red">▲ +35.9%</span></td></tr>
+                                    <tr><td>Mar-26</td><td>₹29.37 L</td><td><span class="tag-green">▼ -18.0%</span></td></tr>
+                                    <tr><td>Apr-26</td><td>₹42.59 L</td><td><span class="tag-red">▲ +45.0%</span></td></tr>
+                                    <tr><td>May-26</td><td>₹56.69 L</td><td><span class="tag-red">▲ +33.1%</span></td></tr>
+                                    <tr><td>Jun-26</td><td>₹44.34 L</td><td><span class="tag-green">▼ -21.8%</span></td></tr>
+                                    <tr><td>Jul-26</td><td>₹51.65 L</td><td><span class="tag-red">▲ +16.5%</span></td></tr>
+                                    <tr><td>Aug-26</td><td>₹75.24 L</td><td><span class="tag-red">▲ +45.7%</span></td></tr>
+                                    <tr style="font-weight:bold; background:#ebf8ff;"><td>Sep-26</td><td>₹46.55 L</td><td><span class="tag-green">▼ -38.1%</span></td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Expense Categorization Deep Dive (As of Sept 2026)</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Total September 2026 Expense: <strong>₹46,55,952</strong></p>
+                    <ul style="list-style-type: none; font-size: 0.9rem; line-height: 1.6;">
+                        <li style="margin-bottom: 8px;"><strong>1. Fixed Operations (~₹33.12 Lakhs | 71%):</strong> Highly predictable recurring base. Includes Housekeeping (CCPL: ₹10.26L), Security (Globeye: ₹12.16L), UGVCL Power (₹7.76L), and Direct Salaries. These costs scale mildly with new residents.</li>
+                        <li style="margin-bottom: 8px;"><strong>2. CAPEX & AMCs (~₹8.93 Lakhs | 19%):</strong> Capital investments. E.g., New Gym Equipment (₹2.41L) and Pump System Advance (₹1.88L). These add value to society assets but drain liquidity.</li>
+                        <li><strong>3. Variable & Accidental (~₹4.50 Lakhs | 10%):</strong> Unpredictable repairs. E.g., Heavy Tubewell repairs (₹2.83L) and Fire Pump servicing (₹73k).</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3>Inflation & Liability Model: 300 vs 438 Flats</h3>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Assuming a flat running maintenance collection of <strong>₹10,000 / month / flat</strong>.</p>
+                    
+                    <div style="background:#fff5f5; border-left:4px solid #e53e3e; padding:12px; margin-bottom:10px; border-radius:6px;">
+                        <div style="font-size:0.85rem; color:#c53030; font-weight:600;">Current State: 300 Flats Occupied</div>
+                        <div style="font-size:1.1rem; font-weight:bold; color:#e53e3e;">Collection: ₹30.00 Lakhs | Avg 6-Mo Exp: ~₹52.84 Lakhs</div>
+                        <div style="font-size:0.8rem; color:#742a2a; margin-top:4px;"><strong>Deficit: ~₹22.84 Lakhs/month.</strong> Without builder compensation for unsold flats, the society is burning through reserve capital to sustain operations.</div>
+                    </div>
+                    
+                    <div style="background:#f0fff4; border-left:4px solid #38a169; padding:12px; border-radius:6px;">
+                        <div style="font-size:0.85rem; color:#276749; font-weight:600;">Future State: 438 Flats Fully Occupied</div>
+                        <div style="font-size:1.1rem; font-weight:bold; color:#1c4532;">Collection: ₹43.80 Lakhs | Proj. Exp: ~₹58.00 Lakhs</div>
+                        <div style="font-size:0.8rem; color:#173123; margin-top:4px;"><strong>Deficit Continues.</strong> Even at 100% occupancy, basic collection falls short of historical peak spending. Solar power or fee adjustments are mathematically mandatory.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 20px;">
+                <h3>Occupancy Growth Scenarios (Target: 438 Flats)</h3>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Scenario</th>
+                                <th>Growth Rate</th>
+                                <th>Months to 100% (From Sept 26)</th>
+                                <th>Target Full Occupancy Date</th>
+                                <th>Financial Impact & Inflation Constraint</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Use Case 1: Steady Growth</strong></td>
+                                <td>5% of Total (22 flats/mo)</td>
+                                <td>~6.2 Months</td>
+                                <td><strong>April 2027</strong></td>
+                                <td>Provides time to phase in Builder Liability claims (₹8.7Cr) to offset the ₹22L/month operational deficit during the transition.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Use Case 2: Rapid Growth</strong></td>
+                                <td>10% of Total (44 flats/mo)</td>
+                                <td>~3.1 Months</td>
+                                <td><strong>January 2027</strong></td>
+                                <td>Rapidly spikes UGVCL power usage (Variable cost). The society must implement the 450kWp Solar PV system before this date to prevent aggressive cash burn.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 12. Searchable Ledger -->
         <div id="ledger-search" class="section-block">
             <div class="section-header">
-                <span>11. Full Bank Transaction Ledger</span>
+                <span>12. Full Bank Transaction Ledger</span>
             </div>
             <div class="card">
                 
@@ -588,13 +704,13 @@
         </div>
         <div class="chat-body" id="chatBody">
             <div class="msg bot">
-                Hello! I am your AI Audit Assistant by <b>Goyamlabdhi Fintech</b>. I have indexed the Bank Statements, official Audit Reports, UGVCL Power Bills, and the ₹29Cr Builder Fund model. Ask me anything!
+                Hello! I am your AI Audit Assistant by <b>Goyamlabdhi Fintech</b>. I have indexed the Bank Statements, official Audit Reports, UGVCL Power Bills, and the 18-Month Expense sheet. Ask me anything!
             </div>
             <div class="chat-chips">
+                <div class="chip" onclick="quickAsk('Expense Deficit')">Expense Deficit</div>
                 <div class="chip" onclick="quickAsk('Builder Liability')">Builder Due</div>
                 <div class="chip" onclick="quickAsk('Electricity Bills')">UGVCL Bills</div>
                 <div class="chip" onclick="quickAsk('Solar ROI')">Solar ROI</div>
-                <div class="chip" onclick="quickAsk('Salaries')">Staff Salaries</div>
             </div>
         </div>
         <div class="chat-input">
@@ -630,18 +746,18 @@
 
         // 3. Month-by-Month Data Store
         const monthData = [
-            { title: "April 2025", outflow: "₹26.5 Lakhs", inflow: "₹1.05 Crores", highlight: "Strong initial revenue. Multiple ₹118.00 cheque return fees indicate collection friction." },
-            { title: "May 2025", outflow: "₹51.7 Lakhs", inflow: "₹1.38 Crores", highlight: "Schindler Elevator AMC payment of ₹30,15,671.00. Regular self-cheque cash withdrawals commenced." },
-            { title: "June 2025", outflow: "₹81.4 Lakhs", inflow: "₹1.78 Crores", highlight: "Housekeeping (Safal: ₹6.69L) and Security (Shield: ₹6.12L) baselines established." },
-            { title: "July 2025", outflow: "₹46.2 Lakhs (Ops)", inflow: "₹1.17 Crores", highlight: "₹6,00,00,000.00 (₹6 Crores) transferred into Fixed Deposit on 04/07/2025." },
-            { title: "August 2025", outflow: "₹75.6 Lakhs", inflow: "₹1.37 Crores", highlight: "Double UGVCL utility payment realization of ₹13,38,246.00 each on 20/08 and 30/08." },
-            { title: "September 2025", outflow: "₹1.15 Crores (Ops)", inflow: "₹1.08 Crores", highlight: "₹3 Cr FD creation. Massive statutory GST payment of ₹76,20,396.00 on 16/09/2025." },
-            { title: "October 2025", outflow: "₹44.1 Lakhs", inflow: "₹90.5 Lakhs", highlight: "Fragmented daily UGVCL NEFT payments (16/10/2025) obfuscating individual meter charges." },
-            { title: "November 2025", outflow: "₹60.9 Lakhs", inflow: "₹1.15 Crores", highlight: "UGVCL RTGS bill ₹5,74,489.00 along with Safal Housekeeping ₹6,40,014.00." },
-            { title: "December 2025", outflow: "₹41.2 Lakhs", inflow: "₹1.37 Crores", highlight: "GST Tax payment ₹10,56,631.00 (10/12/2025). Safal Housekeeping ₹7,72,191.00." },
-            { title: "January 2026", outflow: "₹54.1 Lakhs", inflow: "₹1.20 Crores", highlight: "Vendor transition: Globeye Security (₹6.15L) replaces Shield Security." },
-            { title: "February 2026", outflow: "₹45.8 Lakhs", inflow: "₹1.18 Crores", highlight: "Globeye Security spikes to ₹9,87,319.00. Unexplained payment to Rakesh Trading Co (₹6L)." },
-            { title: "March 2026", outflow: "₹50.3 Lakhs", inflow: "₹1.24 Crores", highlight: "Year-end interest credit received ₹4,12,788.00. Closing balance settled at ₹4,28,63,846.20." }
+            { title: "April 2025", outflow: "₹46.57 Lakhs", inflow: "₹1.05 Crores", highlight: "Heavy Lift AMC capital expense of ₹30.15 Lakhs recorded." },
+            { title: "May 2025", outflow: "₹30.35 Lakhs", inflow: "₹1.38 Crores", highlight: "Normal operational baseline established (~₹30L)." },
+            { title: "June 2025", outflow: "₹31.31 Lakhs", inflow: "₹1.78 Crores", highlight: "Housekeeping (Safal) and Security (Shield) baselines established." },
+            { title: "July 2025", outflow: "₹25.80 Lakhs", inflow: "₹1.17 Crores", highlight: "Lower variable spending this month. Basic fixed costs clear." },
+            { title: "August 2025", outflow: "₹34.84 Lakhs", inflow: "₹1.37 Crores", highlight: "Double UGVCL utility payment realization of ₹13.38 Lakhs." },
+            { title: "September 2025", outflow: "₹26.65 Lakhs", inflow: "₹1.08 Crores", highlight: "Massive statutory GST payment of ₹7.62 Lakhs logged." },
+            { title: "October 2025", outflow: "₹25.94 Lakhs", inflow: "₹90.5 Lakhs", highlight: "Stable month with routine housekeeping and utility bills." },
+            { title: "November 2025", outflow: "₹20.98 Lakhs", inflow: "₹1.15 Crores", highlight: "Lowest spending month in the 18-month cycle." },
+            { title: "December 2025", outflow: "₹36.60 Lakhs", inflow: "₹1.37 Crores", highlight: "GST Tax payment ₹10.56 Lakhs causes expenditure spike." },
+            { title: "January 2026", outflow: "₹26.35 Lakhs", inflow: "₹1.20 Crores", highlight: "Vendor transition: Globeye Security replaces Shield Security." },
+            { title: "February 2026", outflow: "₹35.81 Lakhs", inflow: "₹1.18 Crores", highlight: "Globeye Security spikes to ₹9.87L. Unexplained CCTV advance of ₹6L." },
+            { title: "March 2026", outflow: "₹29.37 Lakhs", inflow: "₹1.24 Crores", highlight: "Year-end interest credit received. Standard operational burn." }
         ];
 
         // Init Interactive Month Buttons
@@ -670,7 +786,7 @@
                     </div>
                     <div style="background:#f7fafc; padding:10px 15px; border-radius:6px; border:1px solid var(--border);">
                         <span style="font-size:0.8rem; color:var(--text-muted);">Est. Monthly Outflow:</span>
-                        <div style="font-size:1.1rem; font-weight:bold; color:var(--primary-light);">${data.outflow}</div>
+                        <div style="font-size:1.1rem; font-weight:bold; color:var(--accent-red);">${data.outflow}</div>
                     </div>
                 </div>
                 <p style="font-size:0.95rem; color:var(--text-dark); line-height:1.5;"><strong>Key Audit Observation:</strong> ${data.highlight}</p>
@@ -686,7 +802,7 @@
                     <h3 style="color:#1a365d; font-size:1.1rem; margin-bottom:5px;">${data.title}</h3>
                     <div style="display:flex; gap: 20px; margin-bottom: 5px;">
                         <div><strong>Inflow:</strong> <span style="color:#38a169;">${data.inflow}</span></div>
-                        <div><strong>Outflow:</strong> <span style="color:#2b6cb0;">${data.outflow}</span></div>
+                        <div><strong>Outflow:</strong> <span style="color:#e53e3e;">${data.outflow}</span></div>
                     </div>
                     <p style="font-size:0.9rem;"><strong>Observation:</strong> ${data.highlight}</p>
                 </div>
@@ -716,13 +832,13 @@
                 labels: ['Apr-25', 'May-25', 'Jun-25', 'Jul-25', 'Aug-25', 'Sep-25', 'Oct-25', 'Nov-25', 'Dec-25', 'Jan-26', 'Feb-26', 'Mar-26'],
                 datasets: [{
                     label: 'Operational Spend (Lakhs)',
-                    data: [26.5, 51.7, 81.4, 46.2, 75.6, 115.9, 44.1, 60.9, 41.2, 54.1, 45.8, 50.3],
+                    data: [26.5, 30.3, 31.3, 25.8, 34.8, 26.6, 25.9, 20.9, 36.6, 26.3, 35.8, 29.3],
                     backgroundColor: '#2b6cb0',
                     borderRadius: 4
                 }, {
                     label: 'Trend',
                     type: 'line',
-                    data: [26.5, 51.7, 81.4, 46.2, 75.6, 115.9, 44.1, 60.9, 41.2, 54.1, 45.8, 50.3],
+                    data: [26.5, 30.3, 31.3, 25.8, 34.8, 26.6, 25.9, 20.9, 36.6, 26.3, 35.8, 29.3],
                     borderColor: '#ed8936',
                     borderWidth: 2,
                     fill: false,
@@ -730,6 +846,26 @@
                 }]
             },
             options: { responsive: true, animation: false, scales: { y: { beginAtZero: true } } }
+        });
+
+        // 18 Month Expansion Chart
+        const ctx18Exp = document.getElementById('expense18MonthChart').getContext('2d');
+        new Chart(ctx18Exp, {
+            type: 'line',
+            data: {
+                labels: ['Apr25', 'May25', 'Jun25', 'Jul25', 'Aug25', 'Sep25', 'Oct25', 'Nov25', 'Dec25', 'Jan26', 'Feb26', 'Mar26', 'Apr26', 'May26', 'Jun26', 'Jul26', 'Aug26', 'Sep26'],
+                datasets: [{
+                    label: 'Total Expenses (Lakhs ₹)',
+                    data: [46.57, 30.35, 31.31, 25.80, 34.84, 26.65, 25.94, 20.98, 36.60, 26.35, 35.81, 29.37, 42.59, 56.69, 44.34, 51.65, 75.24, 46.55],
+                    borderColor: '#e53e3e',
+                    backgroundColor: 'rgba(229, 62, 62, 0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#c53030'
+                }]
+            },
+            options: { responsive: true, animation: false, scales: { y: { beginAtZero: false } } }
         });
 
         const ctxPieExp = document.getElementById('expensePieChart').getContext('2d');
@@ -762,10 +898,10 @@
         new Chart(ctxProj, {
             type: 'line',
             data: {
-                labels: ['Apr-26', 'May-26', 'Jun-26', 'Jul-26', 'Aug-26', 'Sep-26'],
+                labels: ['Oct-26', 'Nov-26', 'Dec-26', 'Jan-27', 'Feb-27', 'Mar-27'],
                 datasets: [{
                     label: 'Predicted Budget (Lakhs)',
-                    data: [26.2, 28.5, 30.1, 27.5, 26.8, 26.5],
+                    data: [45.2, 48.5, 50.1, 52.5, 54.8, 58.5],
                     borderColor: '#38a169',
                     backgroundColor: 'rgba(56, 161, 105, 0.1)',
                     fill: true,
@@ -788,7 +924,11 @@
             { date: "26/09/2025", desc: "INTEREST CREDIT RECEIVED", type: "CREDIT", amount: "7,74,081.00", cat: "Bank FD Interest" },
             { date: "21/02/2026", desc: "GLOBEYE SECURITY SERVICES", type: "DEBIT", amount: "9,87,319.00", cat: "Security Charge (Spike)" },
             { date: "25/02/2026", desc: "RAKESH TRADING CO", type: "DEBIT", amount: "6,00,000.00", cat: "Unexplained Trade" },
-            { date: "28/03/2026", desc: "INTEREST CREDIT RECEIVED", type: "CREDIT", amount: "4,12,788.00", cat: "Bank FD Interest" }
+            { date: "28/03/2026", desc: "INTEREST CREDIT RECEIVED", type: "CREDIT", amount: "4,12,788.00", cat: "Bank FD Interest" },
+            { date: "03-09-2026", desc: "IRIN GYM EQUIPMENT", type: "DEBIT", amount: "2,41,349.00", cat: "Capex (Gym)" },
+            { date: "17-09-2026", desc: "JAY PUMPS PVT LTD", type: "DEBIT", amount: "1,88,000.00", cat: "Capex (Pump Advance)" },
+            { date: "30-09-2026", desc: "GLOBEYE SECURITY", type: "DEBIT", amount: "12,16,580.00", cat: "Security Charge" },
+            { date: "30-09-2026", desc: "CERCLE COMPLET PVT LTD", type: "DEBIT", amount: "10,26,580.00", cat: "Housekeeping" }
         ];
 
         function populateLedger() {
@@ -842,10 +982,13 @@
             document.getElementById('solar-interactive-inputs').style.display = 'none';
             document.getElementById('solar-print-labels').style.display = 'block';
             
-            // Remove Table scroll limit & Hide search
+            // Remove Table scroll limits & Hide search
             document.getElementById('ledger-search-filters').style.display = 'none';
             document.getElementById('ledgerTableContainer').style.maxHeight = 'none';
             document.getElementById('ledgerTableContainer').style.overflow = 'visible';
+            
+            document.getElementById('expenseTableContainer').style.maxHeight = 'none';
+            document.getElementById('expenseTableContainer').style.overflow = 'visible';
 
             // 2. Configure html2pdf to process and directly download the file
             const opt = {
@@ -871,6 +1014,9 @@
                 document.getElementById('ledger-search-filters').style.display = 'flex';
                 document.getElementById('ledgerTableContainer').style.maxHeight = '450px';
                 document.getElementById('ledgerTableContainer').style.overflowY = 'auto';
+                
+                document.getElementById('expenseTableContainer').style.maxHeight = '250px';
+                document.getElementById('expenseTableContainer').style.overflowY = 'auto';
             });
         }
 
@@ -913,8 +1059,12 @@
                 return "Installing a 450 kWp HT Solar PV system (Cost: ~₹1.89 Cr from ₹9 Cr FDs) saves ~₹3.65L/mo, giving a <b>4.3-year payback</b> and a 23% annual return!";
             } else if (query.includes("salary") || query.includes("salaries")) {
                 return "The audited direct salary burden is ₹25.71 Lakhs/year (~₹2.14L/month), completely separate from third-party agency contracts.";
+            } else if (query.includes("deficit") || query.includes("debt") || query.includes("expense") || query.includes("inflation")) {
+                return "The 6-month average expense is ₹52.84 Lakhs. With only 300 flats paying ₹10,000 each (₹30L), the society is running a <b>~₹22.84 Lakhs monthly deficit</b>. Either the builder must pay their ₹4.35 Cr running maintenance liability, or fees must rise.";
+            } else if (query.includes("occupancy") || query.includes("flat") || query.includes("growth")) {
+                return "At a 5% growth rate (22 flats/mo), full occupancy hits April 2027. At a 10% rate (44 flats/mo), it hits Jan 2027. In both cases, projected spending approaches ₹58L/mo.";
             } else {
-                return "I have indexed all bank statements, UGVCL bills, and independent Audit reports. Try asking about <b>'Builder Liability'</b>, <b>'UGVCL Bills'</b>, <b>'Solar ROI'</b>, or <b>'Salaries'</b>.";
+                return "I have indexed all bank statements, UGVCL bills, 18-month expense sheets, and independent Audit reports. Try asking about <b>'Expense Deficit'</b>, <b>'Builder Liability'</b>, <b>'UGVCL Bills'</b>, or <b>'Solar ROI'</b>.";
             }
         }
     </script>
